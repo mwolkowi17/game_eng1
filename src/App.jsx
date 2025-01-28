@@ -1,5 +1,7 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
+import { SpriteAnimator } from '@react-three/drei'
+import { useTexture } from '@react-three/drei'
 import './App.css'
 
 function Box(props) {
@@ -25,6 +27,17 @@ function Box(props) {
   )
 }
 
+function Sprej() {
+  const frontTexture = useTexture('./assets/PP.png')
+  return (
+    <mesh>
+      <planeGeometry args={[1, 2]} />
+      {/* <meshBasicMaterial color="#fff8eb" /> */}
+      <meshBasicMaterial transparent='true' attach="material" map={frontTexture} />
+    </mesh>
+  )
+}
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -32,11 +45,30 @@ function App() {
   return (
     <>
       <Canvas orthographic camera={{ zoom: 50, near: 0.1, far: 1000, position: [0, 0, 100] }}>
-        <ambientLight intensity={Math.PI / 2} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} />
-        <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-        <Box position={[-1.2, 0, 0]} />
-        <Box position={[1.2, 0, 0]} />
+        <Suspense fallback={null}>
+          <ambientLight intensity={Math.PI / 2} />
+          <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} />
+          <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
+          <Sprej position={[1, 0, 0]} />
+          <SpriteAnimator
+            position={[0, 0, 0]}
+            startFrame={0}
+            meshProps={{ frustumCulled: false, scale: 2.5 }}
+            autoPlay={true}
+            loop={true}
+
+            numberOfFrames={6}
+            textureImageURL={'./flame.png'}
+            textureDataURL={'./flame.json'}
+
+          />
+
+
+
+          <Box position={[-1.2, 0, 0]} />
+        </Suspense>
+
+        {/*<Box position={[1.2, 0, 0]} /> */}
       </Canvas>
     </>
   )
