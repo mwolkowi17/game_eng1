@@ -1,6 +1,6 @@
 import React, { useRef, useState, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { SpriteAnimator } from '@react-three/drei'
+import { SpriteAnimator, DragControls } from '@react-three/drei'
 import { useTexture } from '@react-three/drei'
 import './App.css'
 
@@ -27,14 +27,19 @@ function Box(props) {
   )
 }
 
-function Sprej() {
+function Sprej(props) {
   const frontTexture = useTexture('./assets/PP.png')
+  const meshRef2 = useRef()
   return (
-    <mesh>
-      <planeGeometry args={[1, 2]} />
-      {/* <meshBasicMaterial color="#fff8eb" /> */}
-      <meshBasicMaterial transparent='true' attach="material" map={frontTexture} />
-    </mesh>
+    <DragControls>
+      <mesh {...props} ref={meshRef2}>
+
+        {/* <planeBufferGeometry attach="geometry" /> */}
+        <planeGeometry args={[1, 2]} />
+        {/* <meshBasicMaterial color="#fff8eb" /> */}
+        <meshBasicMaterial transparent='true' attach="material" map={frontTexture} />
+      </mesh>
+    </DragControls>
   )
 }
 
@@ -49,9 +54,11 @@ function App() {
           <ambientLight intensity={Math.PI / 2} />
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} />
           <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-          <Sprej position={[1, 0, 0]} />
+
+          <Sprej position={[6, 0, 0]} />
+
           <SpriteAnimator
-            position={[0, 0, 0]}
+            position={[2, 0, 0]}
             startFrame={0}
             meshProps={{ frustumCulled: false, scale: 2.5 }}
             autoPlay={true}
