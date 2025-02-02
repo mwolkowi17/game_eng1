@@ -1,4 +1,4 @@
-import React, { useRef, useState, Suspense } from 'react'
+import React, { useRef, useState, Suspense, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { SpriteAnimator, DragControls } from '@react-three/drei'
 import { useTexture } from '@react-three/drei'
@@ -30,6 +30,21 @@ function Box(props) {
 function Sprej(props) {
   const frontTexture = useTexture('./assets/PP.png')
   const meshRef2 = useRef()
+  const [startPosition, setStartPosition] = useState(6)
+  useFrame(
+    (delta) => {
+      console.log('position')
+      setStartPosition(meshRef2.current.position.x)
+
+      //console.log(meshRef2.current.position.x)
+    }
+  )
+  useEffect(() => {
+    console.log(meshRef2.current.position.x)
+  }, [startPosition])
+
+
+
   return (
     <DragControls>
       <mesh {...props} ref={meshRef2}>
@@ -46,6 +61,7 @@ function Sprej(props) {
 
 function App() {
   const [count, setCount] = useState(0)
+
 
   return (
     <>
