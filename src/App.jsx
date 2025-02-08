@@ -34,43 +34,27 @@ function Sprej(props) {
   const [startPosition, setStartPosition] = useState(6)
   const [startPositionDrag, setStartPositionDrag] = useState(0)
   const meshDrag1 = useRef()
-  useFrame(
-    (delta) => {
 
-      //setStartPosition(meshRef2.current.position.x)
-      //setStartPositionDrag(meshDrag1.current.position.x)
-      //console.log(startPosition)
-      //console.log(startPositionDrag)
-      //console.log(meshRef2.current.position.x)
-    }
-  )
-  useEffect(() => {
-    console.log('position')
-    // console.log(meshRef2.current.position.x)
-    // console.log(meshDrag1.current.position.x)
-    // console.log(startPositionDrag)
-    // console.log(startPosition)
-  }, [startPositionDrag])
 
 
 
   return (
-    // <DragControls ref={meshDrag1} >
-    <PivotControls ref={meshDrag1}
-      autoTransform={false}
-      matrixAutoUpdate={true}
-      onDrag={(local) => {
-        const position = new THREE.Vector3()
-        const scale = new THREE.Vector3()
-        const quaternion = new THREE.Quaternion()
-        local.decompose(position, quaternion, scale)
-        // apply these to anything you want
-        meshRef2.current.position.copy(position)
-        meshRef2.current.scale.copy(scale)
-        meshRef2.current.quaternion.copy(quaternion)
-        console.log(meshRef2.current.position)
-      }}
-    >
+
+    <DragControls ref={meshDrag1}
+
+      onDrag={
+        (local, local2, world, world2) => {
+          const position = new THREE.Vector3()
+          const scale = new THREE.Vector3()
+          const quaternion = new THREE.Quaternion()
+          local2.decompose(position, quaternion, scale)
+          // apply these to anything you want
+          meshRef2.current.position.copy(position)
+          meshRef2.current.scale.copy(scale)
+          meshRef2.current.quaternion.copy(quaternion)
+          console.log(meshRef2.current.position)
+        }}>
+
       <mesh {...props} ref={meshRef2}>
 
         {/* <planeBufferGeometry attach="geometry" /> */}
@@ -78,8 +62,9 @@ function Sprej(props) {
         {/* <meshBasicMaterial color="#fff8eb" /> */}
         <meshBasicMaterial transparent='true' attach="material" map={frontTexture} />
       </mesh>
-    </PivotControls>
-    // </DragControls>
+
+    </DragControls>
+
   )
 }
 
@@ -96,7 +81,7 @@ function App() {
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} />
           <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
 
-          <Sprej position={[6, 0, 0]} />
+          <Sprej position={[0, 0, 0]} />
 
           <SpriteAnimator
             position={[2, 0, 0]}
