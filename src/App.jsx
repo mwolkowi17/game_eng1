@@ -81,7 +81,7 @@ function App() {
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} />
           <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
 
-          <Sprej position={[0, 0, 0]} />
+          <Sprej position={[0, 0, 1]} />
 
           <SpriteAnimator
             position={[2, 0, 0]}
