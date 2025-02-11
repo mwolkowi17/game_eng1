@@ -4,6 +4,7 @@ import { SpriteAnimator, DragControls, PivotControls } from '@react-three/drei'
 import { useTexture } from '@react-three/drei'
 import * as THREE from 'three'
 import './App.css'
+import { texture } from 'three/tsl'
 
 function Box(props) {
   // This reference will give us direct access to the mesh
@@ -35,9 +36,6 @@ function Sprej(props) {
   const [startPositionDrag, setStartPositionDrag] = useState(0)
   const meshDrag1 = useRef()
 
-
-
-
   return (
 
     <DragControls ref={meshDrag1}
@@ -60,7 +58,7 @@ function Sprej(props) {
         {/* <planeBufferGeometry attach="geometry" /> */}
         <planeGeometry args={[1, 2]} />
         {/* <meshBasicMaterial color="#fff8eb" /> */}
-        <meshBasicMaterial transparent='true' attach="material" map={frontTexture} />
+        <meshBasicMaterial transparent='true' alphaMap={frontTexture} attach="material" map={frontTexture} />
       </mesh>
 
     </DragControls>
@@ -81,10 +79,10 @@ function App() {
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} />
           <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
 
-          <Sprej position={[0, 0, 1]} />
+
 
           <SpriteAnimator
-            position={[2, 0, 0]}
+            position={[2, 0, -2]}
             startFrame={0}
             meshProps={{ frustumCulled: false, scale: 2.5 }}
             autoPlay={true}
@@ -96,7 +94,7 @@ function App() {
 
           />
 
-
+          <Sprej position={[0, 0, -2]} />
 
           <Box position={[-1.2, 0, 0]} />
         </Suspense>
